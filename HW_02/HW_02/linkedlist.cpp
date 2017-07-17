@@ -17,10 +17,10 @@ struct Node {
     ItemType value;
     Node *next;
     
-    Node (ItemType d) {
+   /* Node (ItemType d) {
         next = nullptr;
         value = d;
-    }
+    }*/
 };
 
 class LinkedList {
@@ -44,9 +44,10 @@ public:
     ~LinkedList() {
         Node *next = head;
         Node *prev = nullptr;
-        for ( ; next!=nullptr; next = next->next)
+        for ( ; next!=nullptr; next = next->next) {
             prev = next;
             delete prev;
+        }
     }
     
     // assignment operator
@@ -54,7 +55,8 @@ public:
     
     // Inserts val at the front of the list
     void insertToFront(const ItemType &val) {
-        Node *newNode = new Node(val);
+        Node *newNode = new Node;
+        newNode -> value = val;
         newNode->next = head;
         head = newNode;
         linkedListSize++;
@@ -70,10 +72,31 @@ public:
     // Sets item to the value at position i in this
     // LinkedList and return true, returns false if
     // there is no element i
-    bool get(int i, ItemType& item) const;
+    bool get(int i, ItemType& item) const {
+        if (linkedListSize < i + 1)
+            return false;
+        Node *p = head;
+        for (int j = 0; j != i; j++) {
+            p = p->next;
+        }
+        p->value = item;
+        return true;
+    }
     
     // Reverses the LinkedList
-    void reverseList();
+    void reverseList() {
+        Node *p = head;
+        Node *n = nullptr;
+        
+        while (p != nullptr){
+            if (n==nullptr)
+                head = p->next;
+            head = p;
+            p->next = n;
+            n = head;
+            p = n->next;
+        }
+    }
     
     // Prints the LinkedList in reverse order
     void printReverse() const;
@@ -98,11 +121,16 @@ public:
 
 int main() {
     LinkedList samplelist;
-    for (int i = 0; i < 3; i++) {
-        string a = "hello";
-        samplelist.insertToFront(a);
+    string letters[] = {"a","b","c","d"};
+    for (int i = 0; i < 4; i++) {
+        samplelist.insertToFront(letters[i]);
     }
     cout << samplelist.size() << endl;
+    samplelist.printList();
+    cout << endl;
+    /*string value = "x";
+    samplelist.get(1, value);*/
+    samplelist.reverseList();
     samplelist.printList();
 }
 
