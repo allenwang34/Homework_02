@@ -16,11 +16,6 @@ typedef string ItemType;
 struct Node {
     ItemType value;
     Node *next;
-    
-   /* Node (ItemType d) {
-        next = nullptr;
-        value = d;
-    }*/
 };
 
 class LinkedList {
@@ -28,7 +23,13 @@ class LinkedList {
 private:
     Node *head;
     int linkedListSize;
-    
+	void printReverseRecur (Node *n) const {
+		if (n == nullptr)
+			return;
+		printReverseRecur(n->next);
+		cout << n->value << endl;
+	}
+   
 public:
     
     // default constructor
@@ -37,21 +38,46 @@ public:
     }
     
     // copy constructor
-    LinkedList(const LinkedList& rhs);
+	LinkedList(const LinkedList& rhs) {
+		head = nullptr;
+		Node *n = nullptr;
+		for (Node *p = rhs.head; p != nullptr; p = p->next) {
+			Node *newNode = new Node;
+			newNode->next = nullptr;
+			newNode->value = p->value;
+			if (n == nullptr) {
+				head = newNode;
+			}
+			if (n != nullptr) {
+				n->next = newNode;
+			}
+			n = newNode;
+		}
+
+		linkedListSize = rhs.size();
+	}
     
     // Destroys all the dynamically allocated memory
     // in the list.
-    ~LinkedList() {
-        Node *next = head;
-        Node *prev = nullptr;
-        for ( ; next!=nullptr; next = next->next) {
-            prev = next;
-            delete prev;
-        }
-    }
+	~LinkedList() {
+		Node *next = head;
+		Node *prev = nullptr;
+		while (next != nullptr) {
+			prev = next;
+			next = next->next;
+			delete prev;
+		}
+	}
+        
     
     // assignment operator
-    const LinkedList& operator=(const LinkedList& rhs);
+	const LinkedList& operator=(const LinkedList& rhs) {
+		LinkedList *newLinkedList = new LinkedList(rhs);
+
+		head = newLinkedList->head;
+		linkedListSize = newLinkedList->size();
+		return *this;
+	}
     
     // Inserts val at the front of the list
     void insertToFront(const ItemType &val) {
@@ -85,28 +111,40 @@ public:
     
     // Reverses the LinkedList
     void reverseList() {
-        Node *p = head;
-        Node *n = nullptr;
-        
-        while (p != nullptr){
-            if (n==nullptr)
-                head = p->next;
-            head = p;
-            p->next = n;
-            n = head;
-            p = n->next;
+        Node *next = head;
+        Node *prev = nullptr;
+    
+        while (head->next != nullptr){
+			head = head->next;
+			next->next = prev;
+			prev = next;
+			next = head;
         }
+		next->next = prev;
     }
     
     // Prints the LinkedList in reverse order
-    void printReverse() const;
+	void printReverse() const {
+		printReverseRecur(head);
+	}
     
     // Appends the values of other onto the end of this
     // LinkedList.
-    void append(const LinkedList &other);
+	void append(const LinkedList &other) {    //TODO don't know why it caused error
+		Node *p = head;
+		for (; p -> next != nullptr; p = p->next) {
+			;
+		}
+		p->next = other.head;
+	}
     
     // Exchange the contents of this LinkedList with the other one.
-    void swap(LinkedList &other);
+	void swap(LinkedList &other) {
+		Node *temp;
+		temp = head;
+		head = other.head;
+		other.head = temp;
+	}
     
     // Returns the number of items in the Linked List.
     int size() const {
@@ -121,17 +159,30 @@ public:
 
 int main() {
     LinkedList samplelist;
+	LinkedList otherlist;
+	string otherLetters[] = { "w","x","y","z" };
     string letters[] = {"a","b","c","d"};
     for (int i = 0; i < 4; i++) {
         samplelist.insertToFront(letters[i]);
     }
+	for (int i = 0; i < 4; i++) {
+		otherlist.insertToFront(otherLetters[i]);
+	}
     cout << samplelist.size() << endl;
     samplelist.printList();
     cout << endl;
     /*string value = "x";
     samplelist.get(1, value);*/
-    samplelist.reverseList();
-    samplelist.printList();
+    //samplelist.reverseList();
+	//samplelist.printReverse();
+	//samplelist.append(otherlist);
+	//samplelist.swap(otherlist);
+	LinkedList copyList;
+	copyList = samplelist;
+	copyList.printList();
+	//cout << endl;
+	//otherlist.printList();
+
 }
 
 
