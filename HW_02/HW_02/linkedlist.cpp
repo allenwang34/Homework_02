@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <string>
+#include <assert.h>
 using namespace std;
 
 typedef string ItemType;
@@ -27,7 +28,7 @@ private:
 		if (n == nullptr)
 			return;
 		printReverseRecur(n->next);
-		cout << n->value << endl;
+		cout << n->value << " ";
 	}
    
 public:
@@ -91,8 +92,9 @@ public:
     // Prints the LinkedList
     void printList() const {
         for (Node *p = head; p!= nullptr; p = p->next) {
-            cout << p->value << endl;
+            cout << p->value << " ";
         }
+		cout << endl;
     }
     
     // Sets item to the value at position i in this
@@ -105,7 +107,7 @@ public:
         for (int j = 0; j != i; j++) {
             p = p->next;
         }
-        p->value = item;
+		item = p->value;
         return true;
     }
     
@@ -126,6 +128,7 @@ public:
     // Prints the LinkedList in reverse order
 	void printReverse() const {
 		printReverseRecur(head);
+		cout << endl;
 	}
     
     // Appends the values of other onto the end of this
@@ -155,8 +158,31 @@ public:
 
 
 
+int main() {
+	
+
+	LinkedList e1;
+	e1.insertToFront("A");
+	e1.insertToFront("B");
+	e1.insertToFront("C");
+	e1.insertToFront("D");
+	LinkedList e2;
+	e2.insertToFront("X");
+	e2.insertToFront("Y");
+	e2.insertToFront("Z");
+	e1.swap(e2);  // exchange contents of e1 and e2
+	string s;
+	assert(e1.size() == 3 && e1.get(0, s) && s == "Z");
+	assert(e2.size() == 4 && e2.get(2, s) && s == "B");
+	cout << "Test Passes!" << endl;
+
+}
 
 
+
+
+
+/*
 int main() {
     LinkedList samplelist;
 	LinkedList otherlist;
@@ -171,8 +197,8 @@ int main() {
     cout << samplelist.size() << endl;
     samplelist.printList();
     cout << endl;
-    /*string value = "x";
-    samplelist.get(1, value);*/
+    string value = "x";
+    samplelist.get(1, value);
     //samplelist.reverseList();
 	//samplelist.printReverse();
 	//samplelist.append(otherlist);
@@ -182,7 +208,6 @@ int main() {
 	copyList.printList();
 	//cout << endl;
 	//otherlist.printList();
-
-}
+}*/
 
 
