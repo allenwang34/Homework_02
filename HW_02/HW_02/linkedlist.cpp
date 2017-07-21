@@ -176,7 +176,7 @@ void LinkedList::printReverse() const {
 }
 
 
-void LinkedList:: append(const LinkedList &other) {    //TODO don't know why it caused error
+void LinkedList:: append(const LinkedList &other) {
     Node *p = head;
     if (p==nullptr)
         return;
@@ -208,63 +208,34 @@ int LinkedList:: size() const {
 
 
 
-
-
-
-
-
 int main() {
-	
-    LinkedList e1;
-    e1.insertToFront("A");
-    e1.insertToFront("B");
-    e1.insertToFront("C");
-    e1.insertToFront("D");
-    LinkedList e2;
-    e2.insertToFront("X");
-    e2.insertToFront("Y");
-    e2.insertToFront("Z");
-    e1.swap(e2);  // exchange contents of e1 and e2
-    string s;
-    assert(e1.size() == 3  &&  e1.get(0, s)  &&  s == "Z");
-    assert(e2.size() == 4  &&  e2.get(2, s)  &&  s == "B");
-
-
-
-}
-
-
-
-
-
-
-
-/*int main() {
     LinkedList samplelist;
 	LinkedList otherlist;
-	string otherLetters[] = { "w","x","y","z" };
+	string otherLetters[] = { "w","x","y"};
     string letters[] = {"a","b","c","d"};
     for (int i = 0; i < 4; i++) {
         samplelist.insertToFront(letters[i]);
     }
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 3; i++) {
 		otherlist.insertToFront(otherLetters[i]);
 	}
     cout << samplelist.size() << endl;
     samplelist.printList();
     cout << endl;
     
-    //samplelist.reverseList();
-	//samplelist.printReverse();
-	//samplelist.append(otherlist);
-    //samplelist.swap(otherlist);
-    //samplelist.printList();
-	//samplelist.swap(otherlist);
-	//LinkedList copyList;
-	//copyList = samplelist;
-	//copyList.printList();
-	//cout << endl;
-	//otherlist.printList();
-}*/
+    samplelist.reverseList();
+	samplelist.printReverse();
+	samplelist.append(otherlist);
+    samplelist.swap(otherlist);
+    samplelist.printList();
+    otherlist.printList();
+	samplelist.swap(otherlist);
+    LinkedList copyList(otherlist);
+    copyList.printList();
+	copyList = samplelist;
+    copyList.printList();
+	cout << endl;
+	otherlist.printList();
+}
 
 
